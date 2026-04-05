@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Bhupander Malik - CRUD App</title>
+
+<style>
+    body {
+        font-family: Arial;
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        color: white;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+    }
+
+    h1 {
+        background: black;
+        padding: 15px;
+        margin: 0;
+        color: #00ffcc;
+        letter-spacing: 2px;
+    }
+
+    .container {
+        margin: 20px auto;
+        width: 80%;
+        background: rgba(255,255,255,0.1);
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 0 10px black;
+    }
+
+    input {
+        padding: 10px;
+        margin: 5px;
+        border: none;
+        border-radius: 5px;
+    }
+
+    button {
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 5px;
+        font-weight: bold;
+    }
+
+    .add { background: #00ffcc; color: black; }
+    .edit { background: orange; color: black; }
+    .delete { background: red; color: white; }
+
+    table {
+        width: 100%;
+        margin-top: 20px;
+        border-collapse: collapse;
+        background: white;
+        color: black;
+    }
+
+    th, td {
+        padding: 10px;
+        border: 1px solid #ccc;
+    }
+
+    th {
+        background: #2575fc;
+        color: white;
+    }
+</style>
+</head>
+
+<body>
+
+<h1>Bhupander Malik - CRUD Application</h1>
+
+<div class="container">
+
+    <input type="text" id="id" placeholder="Enter ID">
+    <input type="text" id="name" placeholder="Enter Name">
+    <input type="text" id="address" placeholder="Enter Address">
+    <br>
+    <button class="add" onclick="addData()">Add</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+    </table>
+
+</div>
+
+<script>
+    let data = [];
+
+    function addData() {
+        let id = document.getElementById("id").value;
+        let name = document.getElementById("name").value;
+        let address = document.getElementById("address").value;
+
+        if (id === "" || name === "" || address === "") {
+            alert("Please fill all fields");
+            return;
+        }
+
+        data.push({ id, name, address });
+        displayData();
+
+        document.getElementById("id").value = "";
+        document.getElementById("name").value = "";
+        document.getElementById("address").value = "";
+    }
+
+    function displayData() {
+        let table = document.getElementById("tableBody");
+        table.innerHTML = "";
+
+        data.forEach((item, index) => {
+            table.innerHTML += `
+                <tr>
+                    <td>${item.id}</td>
+                    <td>${item.name}</td>
+                    <td>${item.address}</td>
+                    <td>
+                        <button class="edit" onclick="editData(${index})">Edit</button>
+                        <button class="delete" onclick="deleteData(${index})">Delete</button>
+                    </td>
+                </tr>
+            `;
+        });
+    }
+
+    function editData(index) {
+        let item = data[index];
+
+        document.getElementById("id").value = item.id;
+        document.getElementById("name").value = item.name;
+        document.getElementById("address").value = item.address;
+
+        deleteData(index);
+    }
+
+    function deleteData(index) {
+        data.splice(index, 1);
+        displayData();
+    }
+</script>
+
+</body>
+</html>
